@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    
+    <!-- ############# -->
+    <!-- Define value. -->
+    <!-- ############# -->
+    <Properties>
+         <Property name ="log_dir">log</Property>
+    </Properties>
+
+
+    <!-- ############## -->
+    <!-- All Appenders. -->
+    <!-- ############## -->
+    <Appenders>
+   
+         <!-- Console, level: all except trace -->
+        <Console name ="Console" target="system_out">
+            <PatternLayout pattern ="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] [%5level] %class{1}: %msg%n"/>
+            <ThresholdFilter level ="debug" onMatch="accept" onMismatch="deny" />
+        </Console>
+       
+        <!-- Display for users, level: ONLY trace -->
+        <Console name ="Display" target="system_out">
+            <PatternLayout pattern ="%d{HH:mm:ss.SSS} INFO: %msg%n"/>
+            <ThresholdFilter level ="debug" onMatch="deny" onMismatch="accept" />
+        </Console>
+       
+        <!-- Debug, level: ONLY debug, info&warn -->
+        <File name ="Debug" fileName= "${log_dir}/debug.log" append="false" >
+            <PatternLayout pattern ="%d{yyyy-MM-dd HH:mm:ss.SSS}[%t][%-5level] %class{1}: %msg%n"/>
+            <Filters>
+                 <ThresholdFilter level ="debug" onMatch="neutral" onMismatch="deny" />
+                 <ThresholdFilter level ="error" onMatch="deny" onMismatch="accept" />
+            </Filters>
+        </File>
+       
+        <!-- Error, level: ONLY error&fatal -->
+        <File name ="Error" fileName= "${log_dir}/error.log" append="false" >
+            <PatternLayout pattern ="%d{yyyy-MM-dd HH:mm:ss.SSS}[%t][%-5level] %class{1}: %msg%n"/>
+            <ThresholdFilter level ="error" onMatch="accept" onMismatch="deny" />
+        </File>
+
+         <!-- RollingFile, level: all -->
+        <RollingFile name ="RollingFile" fileName="${log_dir}/rolling.log"
+                     filePattern="${log_dir}/%d{yyyy-MM}/%d{yyyy-MM-dd}-%i.log.gz" >
+            <PatternLayout pattern ="%d{yyyy-MM-dd HH:mm:ss.SSS}[%t][%-5level] %class{1}: %msg%n"/>
+            <SizeBasedTriggeringPolicy size ="50MB"/>
+            <ThresholdFilter level ="trace" onMatch="accept" onMismatch="deny" />
+        </RollingFile>
+    </Appenders>
+   
+   
+    <!-- ############## -->
+    <!-- All Loggers. -->
+    <!-- ############## -->
+    <Loggers>
+<!--         <Logger name="com.archon.apple" level="info" additivity="false"> -->
+<!--             <appender-ref ref="RollingFile"/> -->
+<!--             <appender-ref ref="Console"/> -->
+<!--         </Logger> -->
+       
+        <Root level ="trace">
+            <Appender-ref ref ="Console"/>
+            <Appender-ref ref ="Display"/>
+            <Appender-ref ref ="Debug"/>
+            <Appender-ref ref ="Error"/>
+<!--             <Appender-ref ref ="RollingFile"/> -->
+        </Root>
+    </Loggers>
+</Configuration>
