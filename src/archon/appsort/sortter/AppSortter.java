@@ -30,6 +30,8 @@ public class AppSortter {
 	private static final String WanDouJia = "WanDouJia";
 	
 	private static final String YingYongBao = "YingYongBao";
+
+	private static final String Baidu = "Baidu";
 	
 	private static final String DefaultSortedType = "°²×¿Ó¦ÓÃ";
 	
@@ -56,6 +58,9 @@ public class AppSortter {
 		startSortter();
 
 		initParameters(YingYongBao);
+		startSortter();
+
+		initParameters(Baidu);
 		startSortter();
 	}
 	
